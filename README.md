@@ -31,7 +31,7 @@ where  date(p.payment_date) >= '2005-07-30' and date(p.payment_date) < DATE_ADD(
 group by c.customer_id;
 ```
 Результат выполнения запроса после оптимизации:  
-![](https://github.com/Svalker1989/SQL_Indexes/blob/main/Z2_1.PNG)   
-
+ 
+![](https://github.com/Svalker1989/SQL_Indexes/blob/main/Z2_2.PNG)  
 Так жедобавил индекс, я его пробовал и первый раз добавлять, но изменений в скорости выполнения не увидел, пожтому не стал о нем писать.
 ![](https://github.com/Svalker1989/SQL_Indexes/blob/main/Z2_3.PNG)  
