@@ -19,7 +19,19 @@ where date(p.payment_date) = '2005-07-30' and p.payment_date = r.rental_date and
 перечислите узкие места;  
 После выполнения explain analyze бросается в глаза долгое выполнение оконной функции, при этом в ней происходит группировка по столбцам разных таблиц.  
 оптимизируйте запрос: внесите корректировки по использованию операторов, при необходимости добавьте индексы.  
-Удалив из функции столбец f.title и саму таблицу film из запроса, запрос стал отрабатывать быстрее.  
+Удалив из функции столбец f.title и саму таблицу film из запроса, запрос стал отрабатывать быстрее. 
+Запрос после оптимизации:  
+```SQL
+select distinct concat(c.last_name, ' ', c.first_name), sum(p.amount), c.customer_id
+from payment p
+join rental r on p.payment_date = r.rental_date 
+join customer c on r.customer_id = c.customer_id 
+join inventory i on i.inventory_id = r.inventory_id 
+where  date(p.payment_date) >= '2005-07-30' and date(p.payment_date) < DATE_ADD('2005-07-30', INTERVAL 1 DAY)
+group by c.customer_id;
+```
 Результат выполнения запроса после оптимизации:  
 ![](https://github.com/Svalker1989/SQL_Indexes/blob/main/Z2_1.PNG)   
-![](https://github.com/Svalker1989/SQL_Indexes/blob/main/Z2_2.PNG)  
+
+Так жедобавил индекс, я его пробовал и первый раз добавлять, но изменений в скорости выполнения не увидел, пожтому не стал о нем писать.
+![](https://github.com/Svalker1989/SQL_Indexes/blob/main/Z2_3.PNG)  
